@@ -4,7 +4,7 @@
 
 Want to build or improve a search experience? Start here.
 
-* [Emoji Legend](#emoji-legend)
+* [Legend](#legend)
 * [Why read this?](#why-read-this)
 * [Principles](#principles)
 * [Theory: The search problem](#theory-the-search-problem)
@@ -25,7 +25,7 @@ But is it? Numerous current products [still](https://github.com/isaacs/github/is
 
 Even though many open source software packages exist, and the research is vast, the knowledge around building solid search experiences is limited to a select few. Ironically, [searching online](https://www.google.com/search?q=building+a+search+engine) for search-related expertise doesn’t yield any recent, thoughtful overviews.
 
-## Emoji Legend
+## Legend
 
 * ❗ “Serious” gotcha: consequences of ignorance can be deadly
 * 🔹 Especially notable idea or piece of technology
