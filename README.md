@@ -4,6 +4,21 @@
 
 Want to build or improve a search experience? Start here.
 
+* [Emoji Legend](#emoji-legend)
+* [Why read this?](#why-read-this)
+* [Principles](#principles)
+* [Theory: The search problem](#theory-the-search-problem)
+* [Theory: The search pipeline](#theory-the-search-pipeline)
+* [Indexing pipeline operation](#indexing-pipeline-operation)
+* [Serving systems](#serving-systems)
+* [Quality, evaluation, and improvement](#quality-evaluation-and-improvement)
+* [Practical advice](#practical-advice)
+* [Services and tools](#services-and-tools)
+* [Datasets](#datasets)
+* [References](#references)
+* [Credits](#credits)
+* [License](#license)
+
 Ask a software engineer: “[How would you add search functionality to your product?](https://stackoverflow.com/questions/34314/how-do-i-implement-search-functionality-in-a-website)” or “[How do I build a search engine?](https://www.quora.com/How-to-build-a-search-engine-from-scratch)” You’ll probably immediately hear something like: “Oh, we’d just launch an ElasticSearch cluster. Search is easy these days.”
 
 But is it? Numerous current products [still](https://github.com/isaacs/github/issues/908) [have](https://www.reddit.com/r/Windows10/comments/4jbxgo/can_we_talk_about_how_bad_windows_10_search_sucks/d365mce/) [suboptimal](https://www.reddit.com/r/spotify/comments/2apwpd/the_search_function_sucks_let_me_explain/) [search](https://medium.com/@RohitPaulK/github-issues-suck-723a5b80a1a3#.yp8ui3g9i) [experiences](https://thenextweb.com/opinion/2016/01/11/netflix-search-sucks-flixed-fixes-it/). Any true search expert will tell you that few engineers have a very deep understanding of how search engines work, knowledge that’s often needed to improve search quality.
@@ -29,7 +44,7 @@ I’ll point at some of the most popular approaches, algorithms, techniques, and
 
 ❗️ Not appreciating or understanding the scope and complexity of search problems can lead to bad user experiences, wasted engineering effort, and product failure.
 
-If you’re impatient or already know a lot of this, you might find it useful to jump ahead to the **tools and services** sections.
+If you’re impatient or already know a lot of this, you might find it useful to jump ahead to the [**services and tools**](#services-and-tools) section.
 
 ## Principles
 
@@ -225,7 +240,7 @@ This guide is not meant as a tutorial, but here is a rough outline of a recommen
 * You most likely want to do index selection and clean up your documents (say extract relevant text from HTML pages) before uploading them to the search index. This will decrease the index size and make getting to good results easier. If your corpus fits on a single machine, just write a script (or several) to do that. If not, consider [Spark](https://spark.apache.org/).
 
 
-## Solutions
+## Services and tools
 
 ### ☁️ SaaS
 
