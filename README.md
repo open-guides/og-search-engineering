@@ -152,7 +152,7 @@ Lately, 🔹 [learning to rank](https://en.wikipedia.org/wiki/Learning_to_rank),
 
 A new, [vector space based approach](https://arxiv.org/abs/1708.02702) for semantic retrieval and ranking is gaining popularity lately. The idea is to learn individual low-dimensional vector document representations, then build a model which maps queries into the same vector space.
 
-Then, retrieval is just finding several documents that are closest by some metric (e.g. Euclidian distance) to the query vector. Ranking is the distance itself. If the mapping of both the documents and queries is built well, the documents are chosen not by a fact of presence of some simple pattern (like a word), but how close the documents are to the query by *meaning*.
+Then, retrieval is just finding several documents that are closest by some metric (e.g. Euclidean distance) to the query vector. Ranking is the distance itself. If the mapping of both the documents and queries is built well, the documents are chosen not by a fact of presence of some simple pattern (like a word), but how close the documents are to the query by *meaning*.
 
 ## Indexing pipeline operation
 
