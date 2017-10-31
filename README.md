@@ -1,5 +1,6 @@
 # The Open Guide to Search Engineering
 
+
 ## Table of Contents
 
 * [Introduction](#introduction)
@@ -22,7 +23,7 @@
 
 **What every software engineer should know about search**
 
-Want to build or improve a search experience? Start here.
+[This guide is based on [this](https://medium.com/startup-grind/what-every-software-engineer-should-know-about-search-27d1df99f80d) popular blog post, also discussed [on Hacker News](https://news.ycombinator.com/item?id=15231302).]
 
 Ask a software engineer: “[How would you add search functionality to your product?](https://stackoverflow.com/questions/34314/how-do-i-implement-search-functionality-in-a-website)” or “[How do I build a search engine?](https://www.quora.com/How-to-build-a-search-engine-from-scratch)” You’ll probably immediately hear something like: “Oh, we’d just launch an ElasticSearch cluster. Search is easy these days.”
 
