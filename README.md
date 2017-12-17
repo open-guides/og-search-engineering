@@ -56,40 +56,43 @@ If you’re impatient or already know a lot of this, you might find it useful to
 
 Most of what we cover here has four underlying principles:
 
-* 🔹 **Search is an inherently messy problem:**
-  * Queries are highly variable. The search problems are **highly variable** based on product needs.
-  * Think about how different Facebook search (searching a graph of people).
-  * YouTube search (searching individual videos).
-  * Or how different both of those are are from Kayak ([air travel planning is a really hairy problem](http://www.demarcken.org/carl/papers/ITA-software-travel-complexity/ITA-software-travel-complexity.pdf)).
-  * Google Maps (making sense of geo-spacial data).
-  * Pinterest (pictures of a brunch you might cook one day).
+1. 🔹 **Search is an inherently messy problem:**
 
-* **Quality, metrics, and processes matter a lot:**
-  * There is no magic bullet (like PageRank) nor a magic ranking formula that makes for a good approach. Processes are always evolving collection of techniques and processes that solve aspects of the problem and improve overall experience, usually gradually and continuously.
-  * ❗️In other words, search is not just just about building software that does **ranking** or **retrieval** (which we will discuss below) for a specific domain. Search systems are usually an evolving pipeline of components that are tuned and evolve over time and that build up to a cohesive experience.
-  * In particular, the key to success in search is building processes for evaluation and tuning into the product and development cycles. A search system architect should **think about processes and metrics, not just technologies**.
+    * Queries are highly variable. The search problems are **highly variable** based on product needs.
+    * Think about how different Facebook search (searching a graph of people).
+    * YouTube search (searching individual videos).
+    * Or how different both of those are are from Kayak ([air travel planning is a really hairy problem](http://www.demarcken.org/carl/papers/ITA-software-travel-complexity/ITA-software-travel-complexity.pdf)).
+    * Google Maps (making sense of geo-spacial data).
+    * Pinterest (pictures of a brunch you might cook one day).
 
-* **Use existing technologies first:**
-  * As in most engineering problems, don’t reinvent the wheel yourself. When possible, use existing services or open source tools. If an existing SaaS (such as [Algolia](https://www.algolia.com/) or managed Elasticsearch) fits your constraints and you can afford to pay for it, use it. This solution will likely will be the best choice for your product at first, even if down the road you need to customize, enhance, or replace it.
+2. **Quality, metrics, and processes matter a lot:**
 
-* **Even if you buy, know the details:**
-  * ❗️ Even if you are using an existing open source or commercial solution, you should have some sense of the complexity of the search problem and where there are likely to be pitfalls.
+    * There is no magic bullet (like PageRank) nor a magic ranking formula that makes for a good approach. Processes are always evolving collection of techniques and processes that solve aspects of the problem and improve overall experience, usually gradually and continuously.
+    * ❗️In other words, search is not just just about building software that does **ranking** or **retrieval** (which we will discuss below) for a specific domain. Search systems are usually an evolving pipeline of components that are tuned and evolve over time and that build up to a cohesive experience.
+    * In particular, the key to success in search is building processes for evaluation and tuning into the product and development cycles. A search system architect should **think about processes and metrics, not just technologies**.
+
+3. **Use existing technologies first:**
+    * As in most engineering problems, don’t reinvent the wheel yourself. When possible, use existing services or open source tools. If an existing SaaS (such as [Algolia](https://www.algolia.com/) or managed Elasticsearch) fits your constraints and you can afford to pay for it, use it. This solution will likely will be the best choice for your product at first, even if down the road you need to customize, enhance, or replace it.
+
+4. **Even if you buy, know the details:**
+    * ❗️ Even if you are using an existing open source or commercial solution, you should have some sense of the complexity of the search problem and where there are likely to be pitfalls.
 
 ## Theory: The search problem
 
 Search is different for every product, and choices depend on many technical details of the requirements. It helps to identify the key parameters of your search problem:
-1. **Corpus size:** How big is the corpus (the complete set of documents that need to be searched)? Is it thousands or billions of documents?
-2. **Media:** Are you searching through text, images, graphical relationships, or geospatial data?
-3. 🔹 **Corpus control and quality**: Are the sources for the documents under your control, or coming from a (potentially adversarial) third party? Are all the documents ready to be indexed or need to be cleaned up and selected?
-4. **Indexing speed:** Do you need real-time indexing, or is building indices in batch is fine?
-5. **Query language:** Are the queries structured, or you need to support unstructured ones?
-6. **Query structure**: Are your queries textual, images, sounds? Street addresses, record ids, people’s faces?
-7. **Context-dependence**: Do the results depend on who the user is, what is their history with the product, their geographical location, time of the day etc?
-8. **Suggest support**: Do you need to support incomplete queries?
-9. **Latency:** What are the serving latency requirements? 100 milliseconds or 100 seconds?
-10. **Access control:** Is it entirely public or should users only see a restricted subset of the documents?
-11. **Compliance:** Are there compliance or organizational limitations?
-12. **Internationalization:** Do you need to support documents with multilingual character sets or Unicode? Do you need to support a multilingual corpus? Multilingual queries?
+
+* **Corpus size:** How big is the corpus (the complete set of documents that need to be searched)? Is it thousands or billions of documents?
+8 **Media:** Are you searching through text, images, graphical relationships, or geospatial data?
+* 🔹 **Corpus control and quality**: Are the sources for the documents under your control, or coming from a (potentially adversarial) third party? Are all the documents ready to be indexed or need to be cleaned up and selected?
+* **Indexing speed:** Do you need real-time indexing, or is building indices in batch is fine?
+* **Query language:** Are the queries structured, or you need to support unstructured ones?
+* **Query structure**: Are your queries textual, images, sounds? Street addresses, record ids, people’s faces?
+* **Context-dependence**: Do the results depend on who the user is, what is their history with the product, their geographical location, time of the day etc?
+* **Suggest support**: Do you need to support incomplete queries?
+* **Latency:** What are the serving latency requirements? 100 milliseconds or 100 seconds?
+* **Access control:** Is it entirely public or should users only see a restricted subset of the documents?
+* **Compliance:** Are there compliance or organizational limitations?
+* **Internationalization:** Do you need to support documents with multilingual character sets or Unicode? Do you need to support a multilingual corpus? Multilingual queries?
     * 🔹 In general, use **[UTF-8](https://en.wikipedia.org/wiki/UTF-8)** unless you really know what you’re doing.
 
 Thinking through these points up front can help you make significant choices designing and building individual search system components.
@@ -259,7 +262,6 @@ This guide is not meant as a tutorial, but here is a rough outline of a recommen
 ### Tools and libraries
 
 * 🍺☕🔹[**Lucene**](https://lucene.apache.org/) is the most popular IR library. Implements query analysis, index retrieval and ranking. Either of the components can be replaced by an alternative implementation. There is also a C port — 🍺[Lucy](https://lucy.apache.org/).
-
 * 🍺☕🔹[**Solr**](http://lucene.apache.org/solr/) is a complete search server, based on Lucene. It’s a part of the [Hadoop](http://hadoop.apache.org/) ecosystem of tools.
 * 🍺☕🔹[**Hadoop**](http://hadoop.apache.org/) is the most widely used open source MapReduce system, originally designed as a indexing pipeline framework for Solr. It has been gradually loosing ground to 🍺[**Spark**](http://spark.apache.org/) as the batch data processing framework used for indexing. ☁️[EMR](https://aws.amazon.com/emr/) is a proprietary implementation of MapReduce on AWS.
 * 🍺☕🔹 [**ElasticSearch**](https://www.elastic.co/products/elasticsearch) is also based on Lucene ([feature comparison with Solr](http://solr-vs-elasticsearch.com/)). It has been getting more attention lately, so much that a lot of people think of ES when they hear “search”, and for good reasons: it’s well supported, has [extensive API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html), [integrates with Hadoop](https://github.com/elastic/elasticsearch-hadoop) and [scales well](https://www.elastic.co/guide/en/elasticsearch/guide/current/distributed-cluster.html). There are open source and [Enterprise](https://www.elastic.co/cloud/enterprise) versions. ES is also available as a SaaS on Can scale to billions of documents, but scaling to that point can be very challenging, so typical scenario would involve orders of magnitude smaller corpus.
@@ -297,7 +299,7 @@ A few fun or useful data sets to try building a search engine or evaluating sear
 
 This concludes my humble attempt to make a somewhat-useful “map” for an aspiring search engine engineer. Did I miss something important? I’m pretty sure I did — you know, [the margin is too narrow](https://www.brainyquote.com/quotes/quotes/p/pierredefe204944.html) to contain this enormous topic. Let me know if you think that something should be here and is not — you can reach [me](https://www.linkedin.com/in/grigorev/) at[ forwidur@gmail.com](mailto:forwidur@gmail.com) or at [@forwidur](https://twitter.com/forwidur).
 
-> P.S. — This post is part of a open, collaborative effort to build an online reference, the Open Guide to Practical AI, which we’ll release in draft form soon. See* *[this popular guide](https://github.com/open-guides/og-aws)* *for an example of what’s coming. If you’d like to get updates on or help with with this effort, sign up* *[here](https://upscri.be/d29cfe/).
+> P.S. — This post is part of a open, collaborative effort to build an online reference, the Open Guide to Practical AI, which we’ll release in draft form soon. See [this popular guide](https://github.com/open-guides/og-aws) for an example of what’s coming. If you’d like to get updates on or help with with this effort, sign up [here](https://upscri.be/d29cfe/).
 
 ## Credits
 
@@ -312,4 +314,3 @@ Editorial help and feedback:
 [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
 
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
-
