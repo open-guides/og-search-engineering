@@ -57,6 +57,7 @@ If you’re impatient or already know a lot of this, you might find it useful to
 Most of what we cover here has four underlying principles:
 
 * 🔹 **Search is an inherently messy problem:**
+
   * Queries are highly variable. The search problems are **highly variable** based on product needs.
   * Think about how different Facebook search (searching a graph of people).
   * YouTube search (searching individual videos).
@@ -65,6 +66,7 @@ Most of what we cover here has four underlying principles:
   * Pinterest (pictures of a brunch you might cook one day).
 
 * **Quality, metrics, and processes matter a lot:**
+
   * There is no magic bullet (like PageRank) nor a magic ranking formula that makes for a good approach. Processes are always evolving collection of techniques and processes that solve aspects of the problem and improve overall experience, usually gradually and continuously.
   * ❗️In other words, search is not just just about building software that does **ranking** or **retrieval** (which we will discuss below) for a specific domain. Search systems are usually an evolving pipeline of components that are tuned and evolve over time and that build up to a cohesive experience.
   * In particular, the key to success in search is building processes for evaluation and tuning into the product and development cycles. A search system architect should **think about processes and metrics, not just technologies**.
@@ -78,6 +80,7 @@ Most of what we cover here has four underlying principles:
 ## Theory: The search problem
 
 Search is different for every product, and choices depend on many technical details of the requirements. It helps to identify the key parameters of your search problem:
+
 1. **Corpus size:** How big is the corpus (the complete set of documents that need to be searched)? Is it thousands or billions of documents?
 2. **Media:** Are you searching through text, images, graphical relationships, or geospatial data?
 3. 🔹 **Corpus control and quality**: Are the sources for the documents under your control, or coming from a (potentially adversarial) third party? Are all the documents ready to be indexed or need to be cleaned up and selected?
@@ -259,7 +262,6 @@ This guide is not meant as a tutorial, but here is a rough outline of a recommen
 ### Tools and libraries
 
 * 🍺☕🔹[**Lucene**](https://lucene.apache.org/) is the most popular IR library. Implements query analysis, index retrieval and ranking. Either of the components can be replaced by an alternative implementation. There is also a C port — 🍺[Lucy](https://lucy.apache.org/).
-
 * 🍺☕🔹[**Solr**](http://lucene.apache.org/solr/) is a complete search server, based on Lucene. It’s a part of the [Hadoop](http://hadoop.apache.org/) ecosystem of tools.
 * 🍺☕🔹[**Hadoop**](http://hadoop.apache.org/) is the most widely used open source MapReduce system, originally designed as a indexing pipeline framework for Solr. It has been gradually loosing ground to 🍺[**Spark**](http://spark.apache.org/) as the batch data processing framework used for indexing. ☁️[EMR](https://aws.amazon.com/emr/) is a proprietary implementation of MapReduce on AWS.
 * 🍺☕🔹 [**ElasticSearch**](https://www.elastic.co/products/elasticsearch) is also based on Lucene ([feature comparison with Solr](http://solr-vs-elasticsearch.com/)). It has been getting more attention lately, so much that a lot of people think of ES when they hear “search”, and for good reasons: it’s well supported, has [extensive API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html), [integrates with Hadoop](https://github.com/elastic/elasticsearch-hadoop) and [scales well](https://www.elastic.co/guide/en/elasticsearch/guide/current/distributed-cluster.html). There are open source and [Enterprise](https://www.elastic.co/cloud/enterprise) versions. ES is also available as a SaaS on Can scale to billions of documents, but scaling to that point can be very challenging, so typical scenario would involve orders of magnitude smaller corpus.
@@ -297,7 +299,7 @@ A few fun or useful data sets to try building a search engine or evaluating sear
 
 This concludes my humble attempt to make a somewhat-useful “map” for an aspiring search engine engineer. Did I miss something important? I’m pretty sure I did — you know, [the margin is too narrow](https://www.brainyquote.com/quotes/quotes/p/pierredefe204944.html) to contain this enormous topic. Let me know if you think that something should be here and is not — you can reach [me](https://www.linkedin.com/in/grigorev/) at[ forwidur@gmail.com](mailto:forwidur@gmail.com) or at [@forwidur](https://twitter.com/forwidur).
 
-> P.S. — This post is part of a open, collaborative effort to build an online reference, the Open Guide to Practical AI, which we’ll release in draft form soon. See* *[this popular guide](https://github.com/open-guides/og-aws)* *for an example of what’s coming. If you’d like to get updates on or help with with this effort, sign up* *[here](https://upscri.be/d29cfe/).
+> P.S. — This post is part of a open, collaborative effort to build an online reference, the Open Guide to Practical AI, which we’ll release in draft form soon. See [this popular guide](https://github.com/open-guides/og-aws) for an example of what’s coming. If you’d like to get updates on or help with with this effort, sign up [here](https://upscri.be/d29cfe/).
 
 ## Credits
 
@@ -312,4 +314,3 @@ Editorial help and feedback:
 [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
 
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
-
