@@ -296,6 +296,7 @@ A few fun or useful data sets to try building a search engine or evaluating sear
 * https://github.com/harpribot/awesome-information-retrieval — a curated list of search-related resources.
 * A [great blog](https://medium.com/@dtunkelang) on everything search by [Daniel Tunkelang](https://www.cs.cmu.edu/~quixote/).
 * Some good slides on [search engine evaluation](https://web.stanford.edu/class/cs276/handouts/lecture8-evaluation_2014-one-per-page.pdf).
+* UX article on [best practices for search](http://www.uxbooth.com/articles/best-practices-for-search/).
 
 This concludes my humble attempt to make a somewhat-useful “map” for an aspiring search engine engineer. Did I miss something important? I’m pretty sure I did — you know, [the margin is too narrow](https://www.brainyquote.com/quotes/quotes/p/pierredefe204944.html) to contain this enormous topic. Let me know if you think that something should be here and is not — you can reach [me](https://www.linkedin.com/in/grigorev/) at[ forwidur@gmail.com](mailto:forwidur@gmail.com) or at [@forwidur](https://twitter.com/forwidur).
 
