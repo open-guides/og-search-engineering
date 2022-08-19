@@ -210,7 +210,7 @@ Continuously computing such a metric for your (and your competitors’) system y
 
 **🔹Human evaluations:** Quality metrics might seem like statistical calculations, but they can’t all be done by automated calculations. Ultimately, metrics need to represent subjective human evaluation, and this is where a “human in the loop” comes into play.
 
-❗️Skipping human evaluation is probably the most spread reason of sub-par search experiences.
+❗️Skipping human evaluation is probably the most widespread reason of sub-par search experiences.
 
 Usually, at early stages the developers themselves evaluate the results manually. At later point [**human raters**](http://static.googleusercontent.com/media/www.google.com/en//insidesearch/howsearchworks/assets/searchqualityevaluatorguidelines.pdf) (or assessors) may get involved. Raters typically use custom tools to look at returned search results and provide feedback on the quality of the results.
 
@@ -304,11 +304,13 @@ This concludes my humble attempt to make a somewhat-useful “map” for an aspi
 
 ## Credits
 
-Original Author: [**Max Grigorev**](https://twitter.com/forwidur)
+Original author: [**Max Grigorev**](https://twitter.com/forwidur)
 
-Editorial help and feedback:
-[**Joshua Levy**](https://twitter.com/ojoshe),
-[**Leo Polovets**](https://twitter.com/lpolovets), and [**Abhishek Das**](https://www.linkedin.com/in/abhishek-das-3280053/)
+Contribution and review:
+[**Leo Polovets**](https://twitter.com/lpolovets), [**Abhishek Das**](https://www.linkedin.com/in/abhishek-das-3280053/)
+
+Editor: 
+[**Joshua Levy**](https://twitter.com/ojoshe)
 
 ## License
 
