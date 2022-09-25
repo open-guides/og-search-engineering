@@ -61,14 +61,14 @@ Most of what we cover here has four underlying principles:
     * Queries are highly variable. The search problems are **highly variable** based on product needs.
     * Think about how different Facebook search (searching a graph of people).
     * YouTube search (searching individual videos).
-    * Or how different both of those are are from Kayak ([air travel planning is a really hairy problem](http://www.demarcken.org/carl/papers/ITA-software-travel-complexity/ITA-software-travel-complexity.pdf)).
-    * Google Maps (making sense of geo-spacial data).
+    * Or how different both of those are from Kayak ([air travel planning is a really hairy problem](http://www.demarcken.org/carl/papers/ITA-software-travel-complexity/ITA-software-travel-complexity.pdf)).
+    * Google Maps (making sense of geospatial data).
     * Pinterest (pictures of a brunch you might cook one day).
 
 2. **Quality, metrics, and processes matter a lot:**
 
     * There is no magic bullet (like PageRank) nor a magic ranking formula that makes for a good approach. Processes are always evolving collection of techniques and processes that solve aspects of the problem and improve overall experience, usually gradually and continuously.
-    * ❗️In other words, search is not just just about building software that does **ranking** or **retrieval** (which we will discuss below) for a specific domain. Search systems are usually an evolving pipeline of components that are tuned and evolve over time and that build up to a cohesive experience.
+    * ❗️In other words, search is not just about building software that does **ranking** or **retrieval** (which we will discuss below) for a specific domain. Search systems are usually an evolving pipeline of components that are tuned and evolve over time and that build up to a cohesive experience.
     * In particular, the key to success in search is building processes for evaluation and tuning into the product and development cycles. A search system architect should **think about processes and metrics, not just technologies**.
 
 3. **Use existing technologies first:**
@@ -279,7 +279,7 @@ This guide is not meant as a tutorial, but here is a rough outline of a recommen
 A few fun or useful data sets to try building a search engine or evaluating search engine quality:
 
 * 🍺🔹 [**Commoncrawl**](http://commoncrawl.org/) — a regularly-updated open web crawl data. There is a [mirror on AWS](https://aws.amazon.com/public-datasets/common-crawl/), accessible for free within the service.
-* 🍺🔹 [**Openstreetmap data dump**](http://wiki.openstreetmap.org/wiki/Downloading_data) is a very rich source of data for someone building a geospacial search engine.
+* 🍺🔹 [**Openstreetmap data dump**](http://wiki.openstreetmap.org/wiki/Downloading_data) is a very rich source of data for someone building a geospatial search engine.
 * 🍺 [**Google Books N-grams**](http://commondatastorage.googleapis.com/books/syntactic-ngrams/index.html) can be very useful for building language models.
 * 🍺 [**Wikipedia dumps**](https://dumps.wikimedia.org/) are a classic source to build, among other things, an entity graph out of. There is a [wide range of helper tools](https://www.mediawiki.org/wiki/Alternative_parsers) available.
 * [**IMDb dumps**](http://www.imdb.com/interfaces) are a fun dataset to build a small toy search engine for.
@@ -300,7 +300,7 @@ A few fun or useful data sets to try building a search engine or evaluating sear
 
 This concludes my humble attempt to make a somewhat-useful “map” for an aspiring search engine engineer. Did I miss something important? I’m pretty sure I did — you know, [the margin is too narrow](https://www.brainyquote.com/quotes/quotes/p/pierredefe204944.html) to contain this enormous topic. Let me know if you think that something should be here and is not — you can reach [me](https://www.linkedin.com/in/grigorev/) at[ forwidur@gmail.com](mailto:forwidur@gmail.com) or at [@forwidur](https://twitter.com/forwidur).
 
-> P.S. — This post is part of a open, collaborative effort to build an online reference, the Open Guide to Practical AI, which we’ll release in draft form soon. See [this popular guide](https://github.com/open-guides/og-aws) for an example of what’s coming. If you’d like to get updates on or help with with this effort, sign up [here](https://upscri.be/d29cfe/).
+> P.S. — This post is part of a open, collaborative effort to build an online reference, the Open Guide to Practical AI, which we’ll release in draft form soon. See [this popular guide](https://github.com/open-guides/og-aws) for an example of what’s coming. If you’d like to get updates on or help with this effort, sign up [here](https://upscri.be/d29cfe/).
 
 ## Credits
 
