@@ -82,12 +82,12 @@ Most of what we cover here has four underlying principles:
 Search is different for every product, and choices depend on many technical details of the requirements. It helps to identify the key parameters of your search problem:
 
 * **Corpus size:** How big is the corpus (the complete set of documents that need to be searched)? Is it thousands or billions of documents?
-8 **Media:** Are you searching through text, images, graphical relationships, or geospatial data?
+* **Media:** Are you searching through text, images, graphical relationships, or geospatial data?
 * 🔹 **Corpus control and quality**: Are the sources for the documents under your control, or coming from a (potentially adversarial) third party? Are all the documents ready to be indexed or need to be cleaned up and selected?
-* **Indexing speed:** Do you need real-time indexing, or is building indices in batch is fine?
-* **Query language:** Are the queries structured, or you need to support unstructured ones?
+* **Indexing speed:** Do you need real-time indexing, or is building indices in batch fine?
+* **Query language:** Are the queries structured, or do you need to support unstructured ones?
 * **Query structure**: Are your queries textual, images, sounds? Street addresses, record ids, people’s faces?
-* **Context-dependence**: Do the results depend on who the user is, what is their history with the product, their geographical location, time of the day etc?
+* **Context-dependence**: Do the results depend on who the user is, what their history is with the product, their geographical location, time of the day, etc?
 * **Suggest support**: Do you need to support incomplete queries?
 * **Latency:** What are the serving latency requirements? 100 milliseconds or 100 seconds?
 * **Access control:** Is it entirely public or should users only see a restricted subset of the documents?
@@ -95,7 +95,7 @@ Search is different for every product, and choices depend on many technical deta
 * **Internationalization:** Do you need to support documents with multilingual character sets or Unicode? Do you need to support a multilingual corpus? Multilingual queries?
     * 🔹 In general, use **[UTF-8](https://en.wikipedia.org/wiki/UTF-8)** unless you really know what you’re doing.
 
-Thinking through these points up front can help you make significant choices designing and building individual search system components.
+Thinking through these points up front can help you make significantly better choices designing and building individual search system components.
 
 ## Theory: The search pipeline
 
@@ -123,7 +123,7 @@ Or near-duplicates and redundant documents. Can be done with [Locality-sensitive
 
 ### Low-utility documents
 
-The definition of utility depends highly on the problem domain, so it’s hard to recommend the approaches here. Some ideas are: it might be possible to build a utility function for your documents; heuristics might work, or example an image that contains only black pixels is not a useful document; utility might be learned from user behavior.
+The definition of utility depends highly on the problem domain, so it’s hard to recommend the approaches here. Some ideas are: it might be possible to build a utility function for your documents; heuristics might work or, for example, an image that contains only black pixels is not a useful document; utility might be learned from user behavior.
 
 ### Index construction
 
@@ -131,10 +131,10 @@ For most search systems, document retrieval is performed using an [**inverted in
 
 * The index is a mapping of **search terms** to documents. A search term could be a word, an image feature or any other document derivative useful for query-to-document matching. The list of the documents for a given term is called a [**posting list**](https://en.wikipedia.org/wiki/Inverted_index). It can be sorted by some metric, like document quality.
 * Figure out whether you need to index the data in **batches** or in **real time**.
-  * ❗️Many companies with large corpora of documents use a batch-oriented indexing approach, but then find this is unsuited to a product where users expect results to be current.
-* With text documents, term extraction usually involves using NLP techniques, such as stop lists, [stemming](https://en.wikipedia.org/wiki/Stemming) and [entity extraction](https://en.wikipedia.org/wiki/Named-entity_recognition); for images or videos computer vision methods are used etc.
-* In addition, documents are mined for statistical and meta information, such as references to other documents (used in the famous [**PageRank**](http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf) ranking signal), [topics](https://gofishdigital.com/semantic-topic-modeling/), counts of term occurrences, document size, entities A mentioned etc. That information can be later used in ranking signal construction or document clustering. Some larger systems might contain several indexes, e.g. for documents of different types.
-* Index formats. The actual structure and layout of the index is a complex topic, since it can be optimized in many ways. For instance there are [posting lists compression methods](https://nlp.stanford.edu/IR-book/html/htmledition/postings-file-compression-1.html), one could target [mmap()able data representation](https://deplinenoise.wordpress.com/2013/03/31/fast-mmapable-data-structures/) or use[ LSM-tree](https://en.wikipedia.org/wiki/Log-structured_merge-tree) for continuously updated index.
+  * ❗️Many companies with a large corpora of documents use a batch-oriented indexing approach, but then find this is unsuited to a product where users expect results to be current.
+* With text documents, term extraction usually involves using NLP techniques, such as stop lists, [stemming](https://en.wikipedia.org/wiki/Stemming) and [entity extraction](https://en.wikipedia.org/wiki/Named-entity_recognition); for images or videos computer vision methods are used, etc.
+* In addition, documents are mined for statistical and meta information, such as references to other documents (used in the famous [**PageRank**](http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf) ranking signal), [topics](https://gofishdigital.com/semantic-topic-modeling/), counts of term occurrences, document size, entities mentioned, etc. That information can be later used in ranking signal construction or document clustering. Some larger systems might contain several indexes, e.g. for documents of different types.
+* Index formats. The actual structure and layout of the index is a complex topic, since it can be optimized in many ways. For instance there are [posting lists compression methods](https://nlp.stanford.edu/IR-book/html/htmledition/postings-file-compression-1.html), one could target [mmap()able data representation](https://deplinenoise.wordpress.com/2013/03/31/fast-mmapable-data-structures/) or use [LSM-tree](https://en.wikipedia.org/wiki/Log-structured_merge-tree) for a continuously updated index.
 
 ### Query analysis and document retrieval
 
@@ -177,10 +177,10 @@ Some complex search engines (like Google) have several layers of pipelines opera
 
 Ultimately, the goal of a search system is to accept queries, and use the index to return appropriately ranked results. While this subject can be incredibly complex and technical, we mention a few of the key aspects to this part of the system.
 
-* **Performance:** users notice when the system they interact with is laggy. ❗️Google has done [extensive research](http://services.google.com/fh/files/blogs/google_delayexp.pdf), and they have noticed that number of searches falls 0.6%, when serving is slowed by 300ms. They recommend to serve results under 200 ms for most of your queries. A good article [on the topic](http://highscalability.com/latency-everywhere-and-it-costs-you-sales-how-crush-it). This is the hard part: the system needs to collect documents from, possibly, many computers, than merge them into possible a very long list and then sort that list in the ranking order. To complicate things further, ranking might be query-dependent, so, while sorting, the system is not just comparing 2 numbers, but performing computation.
-* **🔹Caching results**: is often necessary to achieve decent performance. ❗️ But caches are just one large gotcha. The might show stale results when indices are updated or some results are blacklisted. Purging caches is a can of worms of itself: a search system might not have the capacity to serve the entire query stream with an empty (cold) cache, so the [cache needs to be pre-warmed](https://stackoverflow.com/questions/22756092/what-does-it-mean-by-cold-cache-and-warm-cache-concept) before the queries start arriving. Overall, caches complicate a system’s performance profile. Choosing a cache size and a replacement algorithm is also a [challenge](https://en.wikipedia.org/wiki/Cache_performance_measurement_and_metric).
+* **Performance:** users notice when the system they interact with is laggy. ❗️Google has done [extensive research](http://services.google.com/fh/files/blogs/google_delayexp.pdf), and they have noticed that the number of searches falls 0.6%, when serving is slowed by 300ms. They recommend to serve results under 200 ms for most of your queries. A good article [on the topic](http://highscalability.com/latency-everywhere-and-it-costs-you-sales-how-crush-it). This is the hard part: the system needs to collect documents from, possibly, many computers, than merge them into possibly a very long list and then sort that list in the ranking order. To complicate things further, ranking might be query-dependent, so, while sorting, the system is not just comparing 2 numbers, but performing computation.
+* **🔹Caching results**: is often necessary to achieve decent performance. ❗️ But caches are just one large gotcha. They might show stale results when indices are updated or some results are blacklisted. Purging caches is a can of worms in itself: a search system might not have the capacity to serve the entire query stream with an empty (cold) cache, so the [cache needs to be pre-warmed](https://stackoverflow.com/questions/22756092/what-does-it-mean-by-cold-cache-and-warm-cache-concept) before the queries start arriving. Overall, caches complicate a system’s performance profile. Choosing a cache size and a replacement algorithm is also a [challenge](https://en.wikipedia.org/wiki/Cache_performance_measurement_and_metric).
 * **Availability**: is often defined by an uptime/(uptime + downtime) metric. When the index is distributed, in order to serve any search results, the system often needs to query all the shards for their share of results. ❗️That means, that if one shard is unavailable, the entire search system is compromised. The more machines are involved in serving the index — the higher the probability of one of them becoming defunct and bringing the whole system down.
-* **Managing multiple indices:** Indices for large systems may separated into shards (pieces) or divided by media type or indexing cadence (fresh versus long-term indices). Results can then be merged.
+* **Managing multiple indices:** Indices for large systems may be separated into shards (pieces) or divided by media type or indexing cadence (fresh versus long-term indices). Results can then be merged.
 * **Merging results of different kinds**: e.g. Google showing results from Maps, News etc.
 
 ## Quality, evaluation, and improvement
@@ -203,16 +203,16 @@ Continuously computing such a metric for your (and your competitors’) system y
 
 * [**Precision**](https://en.wikipedia.org/wiki/Information_retrieval#Precision) and  [**recall**](https://en.wikipedia.org/wiki/Information_retrieval#Recall) measure how well the retrieved set of documents corresponds to the set you expected to see.
 * [**F score**](https://en.wikipedia.org/wiki/F1_score) (specifically **F1 score**) is a single number, that represents both precision and recall well.
-* [**Mean Average Precision**](http://fastml.com/what-you-wanted-to-know-about-mean-average-precision/) (**MAP**) allows to quantify the relevance of the top returned results.
+* [**Mean Average Precision**](http://fastml.com/what-you-wanted-to-know-about-mean-average-precision/) (**MAP**) allows one to quantify the relevance of the top returned results.
 * [🔹**Normalized Discounted Cumulative Gain**](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) (**nDCG**) is like MAP, but weights the relevance of the result by its position.
-* [**Long and short clicks**](http://www.blindfiveyearold.com/short-clicks-versus-long-clicks) — Allow to quantify how useful the results are to the real users.
+* [**Long and short clicks**](http://www.blindfiveyearold.com/short-clicks-versus-long-clicks) — Allows one to quantify how useful the results are to real users.
 * [A good detailed overview](https://arxiv.org/pdf/1302.2318.pdf).
 
 **🔹Human evaluations:** Quality metrics might seem like statistical calculations, but they can’t all be done by automated calculations. Ultimately, metrics need to represent subjective human evaluation, and this is where a “human in the loop” comes into play.
 
 ❗️Skipping human evaluation is probably the most widespread reason of sub-par search experiences.
 
-Usually, at early stages the developers themselves evaluate the results manually. At later point [**human raters**](http://static.googleusercontent.com/media/www.google.com/en//insidesearch/howsearchworks/assets/searchqualityevaluatorguidelines.pdf) (or assessors) may get involved. Raters typically use custom tools to look at returned search results and provide feedback on the quality of the results.
+Usually, at early stages the developers themselves evaluate the results manually. At a later point [**human raters**](http://static.googleusercontent.com/media/www.google.com/en//insidesearch/howsearchworks/assets/searchqualityevaluatorguidelines.pdf) (or assessors) may get involved. Raters typically use custom tools to look at returned search results and provide feedback on the quality of the results.
 
 Subsequently, you can use the feedback signals to guide development, help make launch decisions or even feed them back into the index selection, retrieval or ranking systems.
 
@@ -221,11 +221,11 @@ Here is the list of some other types of human-driven evaluation, that can be don
 * **Basic user evaluation:** The user ranks their satisfaction with the whole experience
 * **Comparative evaluation:** Compare with other search results (compare with search results from earlier versions of the system or competitors)
 * **Retrieval evaluation:** The query analysis and retrieval quality is often evaluated using manually constructed query-document sets. A user is shown a query and the list of the retrieved documents. She can then mark all the documents that are relevant to the query, and the ones that are not. The resulting pairs of (query, [relevant docs]) are called a “**golden set**”. Golden sets are remarkably useful. For one, an engineer can set up automatic retrieval regression tests using those sets. The selection signal from golden sets can also be fed back as ground truth to term re-weighting and other query re-writing models.
-* **Ranking evaluation:** Raters are presented with a query and two documents side-by-side. The rater must choose the document that fits the query better. This creates a partial ordering on the documents for a given query. That ordering can be later be compared to the output of the ranking system. The usual ranking quality measures used are MAP and nDCG.
+* **Ranking evaluation:** Raters are presented with a query and two documents side-by-side. The rater must choose the document that fits the query better. This creates a partial ordering on the documents for a given query. That ordering can later be compared to the output of the ranking system. The usual ranking quality measures used are MAP and nDCG.
 
 ### Evaluation datasets
 
-One should start thinking about the datasets used for evaluation (like “golden sets” mentioned above) early in the search experience design process. How you collect and update them? How you push them to the production eval pipeline? Is there a built-in bias?
+One should start thinking about the datasets used for evaluation (like “golden sets” mentioned above) early in the search experience design process. How do you collect and update them? How do you push them to the production eval pipeline? Is there a built-in bias?
 
 **Live experiments:** After your search engine catches on and gains enough users, you might want to start conducting [live search experiments](https://googleblog.blogspot.co.uk/2008/08/search-experiments-large-and-small.html) on a portion of your traffic. The basic idea is to turn some optimization on for a group of people, and then compare the outcome with that of a “control” group — a similar sample of your users that did not have the experiment feature on for them. How you would measure the outcome is, once again, very product specific: it could be clicks on results, clicks on ads etc.
 
@@ -238,13 +238,13 @@ Will it take days, hours, minutes or seconds to make changes and see if they imp
 This guide is not meant as a tutorial, but here is a rough outline of a recommended approach to building a search experience right now:
 
 * If you can afford it and it fits your needs, just buy an existing SaaS solution (some good ones are listed below). An existing service fits if:
-
+* 
   * Your experience is a “connected” one (your service or app has internet connection).
-  * Does it support all the functionality you need out of box? This post gives a pretty good idea of what functions would you want. To name a few, I’d at least consider: support for the media you are searching; real-time indexing support; query flexibility, including context-dependent queries.
+  * Does it support all the functionality you need out of box? This post gives a pretty good idea of what functions you would want. To name a few, I’d at least consider: support for the media you are searching; real-time indexing support; query flexibility, including context-dependent queries.
   * Given the size of the corpus and the expected [QpS](https://en.wikipedia.org/wiki/Queries_per_second), can you afford to pay for it for the next 12 months?
   * Can the service support your expected traffic within the required latency limits? In case when you are querying the service from an app, make sure that the given service is accessible quickly enough from where your users are.
 
-* If a hosted solution does not fit your needs or resources, you probably want to use one of the open source libraries or tools. In case of connected apps or websites, I’d choose ElasticSearch right now. For embedded experiences, there are multiple tools below.
+* If a hosted solution does not fit your needs or resources, you probably want to use one of the open source libraries or tools. In the case of connected apps or websites, I’d choose ElasticSearch right now. For embedded experiences, there are multiple tools below.
 
 * You most likely want to do index selection and clean up your documents (say extract relevant text from HTML pages) before uploading them to the search index. This will decrease the index size and make getting to good results easier. If your corpus fits on a single machine, just write a script (or several) to do that. If not, consider [Spark](https://spark.apache.org/).
 
@@ -261,12 +261,12 @@ This guide is not meant as a tutorial, but here is a rough outline of a recommen
 
 ### Tools and libraries
 
-* 🍺☕🔹[**Lucene**](https://lucene.apache.org/) is the most popular IR library. Implements query analysis, index retrieval and ranking. Either of the components can be replaced by an alternative implementation. There is also a C port — 🍺[Lucy](https://lucy.apache.org/).
+* 🍺☕🔹[**Lucene**](https://lucene.apache.org/) is the most popular IR library. Implements query analysis, index retrieval and ranking. Either of the components can be replaced by an alternative implementation.
 * 🍺☕🔹[**Solr**](http://lucene.apache.org/solr/) is a complete search server, based on Lucene. It’s a part of the [Hadoop](http://hadoop.apache.org/) ecosystem of tools.
-* 🍺☕🔹[**Hadoop**](http://hadoop.apache.org/) is the most widely used open source MapReduce system, originally designed as a indexing pipeline framework for Solr. It has been gradually loosing ground to 🍺[**Spark**](http://spark.apache.org/) as the batch data processing framework used for indexing. ☁️[EMR](https://aws.amazon.com/emr/) is a proprietary implementation of MapReduce on AWS.
-* 🍺☕🔹 [**ElasticSearch**](https://www.elastic.co/products/elasticsearch) is also based on Lucene ([feature comparison with Solr](http://solr-vs-elasticsearch.com/)). It has been getting more attention lately, so much that a lot of people think of ES when they hear “search”, and for good reasons: it’s well supported, has [extensive API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html), [integrates with Hadoop](https://github.com/elastic/elasticsearch-hadoop) and [scales well](https://www.elastic.co/guide/en/elasticsearch/guide/current/distributed-cluster.html). There are open source and [Enterprise](https://www.elastic.co/cloud/enterprise) versions. ES is also available as a SaaS on Can scale to billions of documents, but scaling to that point can be very challenging, so typical scenario would involve orders of magnitude smaller corpus.
+* 🍺☕🔹[**Hadoop**](http://hadoop.apache.org/) is the most widely used open source MapReduce system, originally designed as an indexing pipeline framework for Solr. It has been gradually losing ground to 🍺[**Spark**](http://spark.apache.org/) as the batch data processing framework used for indexing. ☁️[EMR](https://aws.amazon.com/emr/) is a proprietary implementation of MapReduce on AWS.
+* 🍺☕🔹 [**ElasticSearch**](https://www.elastic.co/products/elasticsearch) is also based on Lucene ([feature comparison with Solr](http://solr-vs-elasticsearch.com/)). It has been getting more attention lately, so much that a lot of people think of ES when they hear “search”, and for good reasons: it’s well supported, has an [extensive API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html), [integrates with Hadoop](https://github.com/elastic/elasticsearch-hadoop) and [scales well](https://www.elastic.co/guide/en/elasticsearch/guide/current/distributed-cluster.html). There are open source and [Enterprise](https://www.elastic.co/cloud/enterprise) versions. ES is also available as a SaaS. One can scale to billions of documents, but scaling to that point can be very challenging, so typical scenarios would involve orders of magnitude smaller corpus.
 * 🍺🇨 [**Xapian**](https://xapian.org/) — a C++-based IR library. Relatively compact, so good for embedding into desktop or mobile applications.
-* 🍺🇨 [**Sphinx**](http://sphinxsearch.com/) — an full-text search server. Has a SQL-like query language. Can also act as a [storage engine for MySQL](https://mariadb.com/kb/en/mariadb/sphinx-storage-engine/) or used as a library.
+* 🍺🇨 [**Sphinx**](http://sphinxsearch.com/) — a full-text search server. Has a SQL-like query language. Can also act as a [storage engine for MySQL](https://mariadb.com/kb/en/mariadb/sphinx-storage-engine/) or be used as a library.
 * 🍺☕ [**Nutch**](https://nutch.apache.org/) — a web crawler. Can be used in conjunction with Solr. It’s also the tool behind [🍺Common Crawl](http://commoncrawl.org/).
 * 🍺🦏 [**Lunr**](https://lunrjs.com/) — a compact embedded search library for web apps on the client-side.
 * 🍺🦏 [**searchkit**](https://github.com/searchkit/searchkit) — a library of web UI components to use with ElasticSearch.
@@ -288,7 +288,7 @@ A few fun or useful data sets to try building a search engine or evaluating sear
 
 * [Modern Information Retrieval](https://www.amazon.com/dp/0321416910) by R. Baeza-Yates and B. Ribeiro-Neto is a good, deep academic treatment of the subject. This is a good overview for someone completely new to the topic.
 * [Information Retrieval](https://www.amazon.com/dp/0262528878/) by S. Büttcher, C. Clarke and G. Cormack is another academic textbook with a wide coverage and is more up-to-date. Covers learn-to-rank and does a pretty good job at discussing theory of search systems evaluation. Also is a good overview.
-* [Learning to Rank](https://www.amazon.com/dp/3642142664/) by T-Y Liu is a best theoretical treatment of LtR. Pretty thin on practical aspects though. Someone considering building an LtR system should probably check this out.
+* [Learning to Rank](https://www.amazon.com/dp/3642142664/) by T-Y Liu is the best theoretical treatment of LtR. Pretty thin on practical aspects though. Someone considering building an LtR system should probably check this out.
 * [Managing Gigabytes](https://www.amazon.com/dp/1558605703) — published in 1999, is still a definitive reference for anyone embarking on building an efficient index of a significant size.
 * [Text Retrieval and Search Engines](https://www.coursera.org/learn/text-retrieval) — a MOOC from Coursera. A decent overview of basics.
 * [Indexing the World Wide Web: The Journey So Far](https://research.google.com/pubs/pub37043.html) ([PDF](https://pdfs.semanticscholar.org/28d8/288bff1b1fc693e6d80c238de9fe8b5e8160.pdf)), an overview of web search from 2012, by Ankit Jain and Abhishek Das of Google.
@@ -298,7 +298,7 @@ A few fun or useful data sets to try building a search engine or evaluating sear
 * Some good slides on [search engine evaluation](https://web.stanford.edu/class/cs276/handouts/lecture8-evaluation_2014-one-per-page.pdf).
 * UX article on [best practices for search](http://www.uxbooth.com/articles/best-practices-for-search/).
 
-This concludes my humble attempt to make a somewhat-useful “map” for an aspiring search engine engineer. Did I miss something important? I’m pretty sure I did — you know, [the margin is too narrow](https://www.brainyquote.com/quotes/quotes/p/pierredefe204944.html) to contain this enormous topic. Let me know if you think that something should be here and is not — you can reach [me](https://www.linkedin.com/in/grigorev/) at[ forwidur@gmail.com](mailto:forwidur@gmail.com) or at [@forwidur](https://twitter.com/forwidur).
+This concludes my humble attempt to make a somewhat-useful “map” for an aspiring search engine engineer. Did I miss something important? I’m pretty sure I did — you know, [the margin is too narrow](https://www.brainyquote.com/quotes/quotes/p/pierredefe204944.html) to contain this enormous topic. Let me know if you think that something should be here and is not — you can reach [me](https://www.linkedin.com/in/grigorev/) at [forwidur@gmail.com](mailto:forwidur@gmail.com) or at [@forwidur](https://twitter.com/forwidur).
 
 > P.S. — This post is part of a open, collaborative effort to build an online reference, the Open Guide to Practical AI, which we’ll release in draft form soon. See [this popular guide](https://github.com/open-guides/og-aws) for an example of what’s coming. If you’d like to get updates on or help with with this effort, sign up [here](https://upscri.be/d29cfe/).
 
